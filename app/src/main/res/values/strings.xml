@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Call Guardian</string>
+    <string name="tiny_app_name">Call Guardian</string>
+    <string name="action_about">About</string>
+    <string name="admin_enabled">Admin Enabled</string>
+    <string name="admin_disabled">Admin Disabled</string>
+    <string name="warn_message">If you want lock screen you need accept this</string>
+    <string name="call_blocked">Your call was blocked</string>
+    <string name="service_started">Service started, blocking miss-clicked calls</string>
+    <string name="service_stopped">Service stopped</string>
+    <string name="about_title">Call Guardian</string>
+    <string name="about_message">Version 1.0\n\n
+This app uses proximity sensor to block miss-clicked calls.\n\n
+If the proximity sensor is obstructed when making a call, it will be probably by mistake, your phone can be in your pocket and your call will be blocked.\n
+Optionally the application can also make the screen lock to lock a call.\n\n
+
+Author: Igor Velho\n
+E-Mail: southdev4@gmail.com
+    </string>
+    <string name="start_service">Start Service</string>
+    <string name="stop_service">Stop Service</string>
+    <string name="lock_screen">Lock screen on call block</string>
+    <string name="start_on_boot">Start service on boot</string>
+    <string name="check_dialog_title">Proximity sensor unavailable</string>
+    <string name="check_dialog_message">This device does not have proximity sensor, this application can not be executed</string>
+
+</resources>

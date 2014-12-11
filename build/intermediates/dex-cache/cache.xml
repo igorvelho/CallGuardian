@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Instaladores\android-sdk-windows\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="C:\Users\igor.velho\AndroidStudioProjects\CallGuardian\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-1dfe0de24e71f599fa079e642306ac1edc081e68.jar" />
+    </item>
+    <item
+        jar="C:\Users\igor.velho\AndroidStudioProjects\CallGuardian\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28">
+        <dex dex="C:\Users\igor.velho\AndroidStudioProjects\CallGuardian\app\build\intermediates\pre-dexed\debug\classes-1632a4cf01edb4b9f76d4618217e16ecf0c2f63b.jar" />
+    </item>
+
+</items>

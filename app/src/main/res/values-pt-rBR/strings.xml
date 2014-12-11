@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Call Guardian</string>
+    <string name="tiny_app_name">Call Guardian</string>
+    <string name="action_about">Sobre</string>
+    <string name="admin_enabled">Administrador ativado</string>
+    <string name="admin_disabled">Administrador desativado</string>
+    <string name="warn_message">Se você deseja que o aplicativo faça o bloqueio da tela após bloquear uma chamada, é necessario ativar este recurso</string>
+    <string name="call_blocked">Sua chamada foi bloqueada</string>
+    <string name="service_started">Serviço ativado, a partir de agora suas chamadas por engano serão bloqueadas</string>
+    <string name="service_stopped">Serviço parado</string>
+    <string name="about_title">Call Guardian</string>
+    <string name="about_message">Versão 1.0\n\n
+Este aplicativo utiliza o sensor de proximidade para bloquear chamadas.\n\n
+Caso o sensor de proximidade esteja obstruido ao efetuar uma chamada, provavelmente ela será por engano, seu celular pode estar no bolso e sua chamada sera bloqueada.\n
+Opcionalmente o aplicativo também poderá efetuar o bloqueio da tela ao bloquear uma chamada.\n\n
+
+Autor: Igor Velho\n
+E-Mail: southdev4@gmail.com
+    </string>
+    <string name="start_service">Iniciar serviço</string>
+    <string name="stop_service">Parar serviço</string>
+    <string name="lock_screen">Bloquear tela ao bloquear chamada</string>
+    <string name="start_on_boot">Iniciar serviço ao iniciar o dispositivo</string>
+    <string name="check_dialog_title">Sensor de proximidade não disponível</string>
+    <string name="check_dialog_message">Este dispositivo não possui sensor de proximidade, esta aplicação não pode ser executada.</string>
+
+</resources>
