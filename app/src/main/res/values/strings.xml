@@ -25,5 +25,6 @@ E-Mail: southdev4@gmail.com
     <string name="start_on_boot">Start service on boot</string>
     <string name="check_dialog_title">Proximity sensor unavailable</string>
     <string name="check_dialog_message">This device does not have proximity sensor, this application can not be executed</string>
+    <string name="total_blocked">Total blocked calls: </string>
 
 </resources>

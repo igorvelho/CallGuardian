@@ -12,16 +12,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 
@@ -31,22 +27,24 @@ public class MainActivity extends Activity {
     ActivityManager activityManager;
     ComponentName compName;
     static final int RESULT_ENABLE = 1;
-    public static final String configName = "Config" ;
+    public static final String configName = "Config";
     SharedPreferences sharedpreferences;
     public static final String lockScreenPref = "lockScreen";
     public static final String startOnBootPref = "startOnBoot";
     public static final String firstBoot = "firstBoot";
-    private CheckBox chkLockscreen;
-    private CheckBox chkStartOnBoot;
+    public static final String blockCount = "blockCount";
+    private CheckedTextView chkLockscreen;
+    private CheckedTextView chkStartOnBoot;
     private TextView txtStatus;
+    private TextView txtCount;
     private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        deviceManger = (DevicePolicyManager)getSystemService(
+        deviceManger = (DevicePolicyManager) getSystemService(
                 Context.DEVICE_POLICY_SERVICE);
-        activityManager = (ActivityManager)getSystemService(
+        activityManager = (ActivityManager) getSystemService(
                 Context.ACTIVITY_SERVICE);
         compName = new ComponentName(this, DeviceManager.class);
 
@@ -54,20 +52,17 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        chkLockscreen = (CheckBox) findViewById(R.id.chkLockscreen);
-        if (sharedpreferences.contains(lockScreenPref))
-        {
+        chkLockscreen = (CheckedTextView) findViewById(R.id.chkLockscreen);
+        if (sharedpreferences.contains(lockScreenPref)) {
             chkLockscreen.setChecked(sharedpreferences.getBoolean(lockScreenPref, false));
         }
 
-        chkStartOnBoot = (CheckBox) findViewById(R.id.chkStartOnBoot);
-        if (sharedpreferences.contains(startOnBootPref))
-        {
+        chkStartOnBoot = (CheckedTextView) findViewById(R.id.chkStartOnBoot);
+        if (sharedpreferences.contains(startOnBootPref)) {
             chkStartOnBoot.setChecked(sharedpreferences.getBoolean(startOnBootPref, false));
         }
 
-        if(sharedpreferences.getBoolean(firstBoot, true))
-        {
+        if (sharedpreferences.getBoolean(firstBoot, true)) {
             AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
             alert.setTitle(getString(R.string.about_title));
             alert.setMessage(getString(R.string.about_message));
@@ -81,15 +76,24 @@ public class MainActivity extends Activity {
         }
 
         txtStatus = (TextView) findViewById(R.id.txtStatus);
+        txtCount = (TextView) findViewById(R.id.txtCount);
+
         UpdateStatus();
 
         CheckSensor();
     }
 
-    private void CheckSensor()
-    {
+    @Override
+    public void onResume() {
+        super.onResume();
+        UpdateStatus();
+        chkStartOnBoot.setChecked(sharedpreferences.getBoolean(startOnBootPref, false));
+        chkLockscreen.setChecked(sharedpreferences.getBoolean(lockScreenPref, false));
+    }
+
+    private void CheckSensor() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) == null){
+        if (mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false);
             builder.setTitle(getString(R.string.check_dialog_title));
@@ -104,14 +108,14 @@ public class MainActivity extends Activity {
     }
 
     private void UpdateStatus() {
-        if(isMyServiceRunning()) {
+        if (isMyServiceRunning()) {
             txtStatus.setText(getString(R.string.service_started));
             txtStatus.setTextColor(Color.BLACK);
-        }
-        else {
+        } else {
             txtStatus.setText(getString(R.string.service_stopped));
             txtStatus.setTextColor(Color.RED);
         }
+        txtCount.setText(getString(R.string.total_blocked) + " " + String.valueOf(sharedpreferences.getInt(blockCount, 0)));
     }
 
     private boolean isMyServiceRunning() {
@@ -125,9 +129,8 @@ public class MainActivity extends Activity {
     }
 
     //start the service
-    public void onClickStartService(View V)
-    {   if(!isMyServiceRunning())
-        {
+    public void onClickStartService(View V) {
+        if (!isMyServiceRunning()) {
             startService(new Intent(this, MainService.class));
         }
         UpdateStatus();
@@ -145,27 +148,28 @@ public class MainActivity extends Activity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     //Stop the started service
-    public void onClickStopService(View V)
-    {
+    public void onClickStopService(View V) {
         //Stop the running service from here//MyService is your service class name
         //Service will only stop if it is already running.
-        if(isMyServiceRunning())
+        if (isMyServiceRunning())
             stopService(new Intent(this, MainService.class));
         UpdateStatus();
     }
 
     public void onLockScreenClick(View v) {
+        ((CheckedTextView) v).setChecked(!((CheckedTextView) v).isChecked());
+
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        if (((CheckBox) v).isChecked()) {
+        if (((CheckedTextView) v).isChecked()) {
             editor.putBoolean(lockScreenPref, true);
             Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
                     getString(R.string.warn_message));
             startActivityForResult(intent, RESULT_ENABLE);
-        }
-        else {
+        } else {
             deviceManger.removeActiveAdmin(compName);
             editor.putBoolean(lockScreenPref, false);
         }
@@ -173,11 +177,12 @@ public class MainActivity extends Activity {
     }
 
     public void onStartBootClick(View v) {
+        ((CheckedTextView) v).setChecked(!((CheckedTextView) v).isChecked());
+
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        if (((CheckBox) v).isChecked()) {
+        if (((CheckedTextView) v).isChecked()) {
             editor.putBoolean(startOnBootPref, true);
-        }
-        else {
+        } else {
             editor.putBoolean(startOnBootPref, false);
         }
         editor.commit();
@@ -185,11 +190,12 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

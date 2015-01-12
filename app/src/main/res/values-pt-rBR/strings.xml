@@ -25,5 +25,6 @@ E-Mail: southdev4@gmail.com
     <string name="start_on_boot">Iniciar serviço ao iniciar o dispositivo</string>
     <string name="check_dialog_title">Sensor de proximidade não disponível</string>
     <string name="check_dialog_message">Este dispositivo não possui sensor de proximidade, esta aplicação não pode ser executada.</string>
+    <string name="total_blocked">Total de chamadas bloqueadas: </string>
 
 </resources>
